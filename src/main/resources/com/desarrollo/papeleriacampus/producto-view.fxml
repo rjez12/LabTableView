@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefWidth="750.0"
+            prefHeight="600.0"
+            stylesheets="@estilos.css"
+            styleClass="app"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.desarrollo.papeleriacampus.controller.ProductoController">
+
+    <center>
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    styleClass="main-scroll">
+
+            <content>
+                <VBox spacing="20.0" styleClass="main-content">
+                    <children>
+
+                        <HBox alignment="CENTER_LEFT" spacing="16.0">
+                            <children>
+                                <Label text="PC" styleClass="brand-logo"/>
+
+                                <VBox spacing="4.0">
+                                    <children>
+                                        <Label text="Papelería Campus"
+                                               styleClass="page-title"/>
+                                        <Label text="Organiza tus productos y consulta sus existencias."
+                                               styleClass="muted-text"/>
+                                    </children>
+                                </VBox>
+
+                                <Region HBox.hgrow="ALWAYS"/>
+
+                                <Label text="CATÁLOGO"
+                                       styleClass="header-badge"/>
+                            </children>
+                        </HBox>
+
+                        <VBox spacing="18.0" styleClass="card">
+                            <children>
+                                <VBox spacing="4.0">
+                                    <children>
+                                        <Label text="Datos del producto"
+                                               styleClass="section-title"/>
+                                        <Label text="Completa la información del producto."
+                                               styleClass="muted-text"/>
+                                    </children>
+                                </VBox>
+
+                                <GridPane hgap="20.0" vgap="16.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints percentWidth="50.0"/>
+                                        <ColumnConstraints percentWidth="50.0"/>
+                                    </columnConstraints>
+
+                                    <children>
+                                        <VBox spacing="7.0"
+                                              GridPane.columnIndex="0"
+                                              GridPane.rowIndex="0">
+                                            <children>
+                                                <Label text="Código"
+                                                       styleClass="field-label"/>
+                                                <TextField fx:id="txtCodigo"
+                                                           promptText="Ej. P005"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7.0"
+                                              GridPane.columnIndex="1"
+                                              GridPane.rowIndex="0">
+                                            <children>
+                                                <Label text="Nombre"
+                                                       styleClass="field-label"/>
+                                                <TextField fx:id="txtNombre"
+                                                           promptText="Nombre del producto"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7.0"
+                                              GridPane.columnIndex="0"
+                                              GridPane.rowIndex="1">
+                                            <children>
+                                                <Label text="Categoría"
+                                                       styleClass="field-label"/>
+
+                                                <ComboBox fx:id="cmbCategoria"
+                                                          maxWidth="Infinity"
+                                                          promptText="Selecciona una categoría">
+                                                    <items>
+                                                        <FXCollections fx:factory="observableArrayList">
+                                                            <String fx:value="Papelería"/>
+                                                            <String fx:value="Tecnología"/>
+                                                            <String fx:value="Accesorios"/>
+                                                        </FXCollections>
+                                                    </items>
+                                                </ComboBox>
+                                            </children>
+                                        </VBox>
+
+                                        <HBox spacing="16.0"
+                                              GridPane.columnIndex="1"
+                                              GridPane.rowIndex="1">
+                                            <children>
+                                                <VBox spacing="7.0" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <Label text="Precio C$"
+                                                               styleClass="field-label"/>
+                                                        <TextField fx:id="txtPrecio"
+                                                                   promptText="0.00"/>
+                                                    </children>
+                                                </VBox>
+
+                                                <VBox spacing="7.0" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <Label text="Stock"
+                                                               styleClass="field-label"/>
+                                                        <TextField fx:id="txtStock"
+                                                                   promptText="0"/>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </GridPane>
+
+                                <Separator/>
+
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Button fx:id="btnNuevo"
+                                                text="Nuevo"
+                                                styleClass="neutral-button"/>
+
+                                        <Button fx:id="btnGuardar"
+                                                text="Guardar producto"
+                                                styleClass="primary-button"/>
+
+                                        <Region HBox.hgrow="ALWAYS"/>
+
+                                        <Button fx:id="btnActualizar"
+                                                text="Actualizar"
+                                                styleClass="secondary-button"/>
+
+                                        <Button fx:id="btnEliminar"
+                                                text="Eliminar"
+                                                styleClass="danger-button"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="16.0" styleClass="card">
+                            <children>
+                                <VBox spacing="4.0">
+                                    <children>
+                                        <Label text="Encuentra tus productos"
+                                               styleClass="section-title"/>
+                                        <Label text="Busca por código o nombre y combina los filtros."
+                                               styleClass="muted-text"/>
+                                    </children>
+                                </VBox>
+
+                                <HBox spacing="20.0" alignment="BOTTOM_LEFT">
+                                    <children>
+                                        <VBox spacing="7.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label text="Código o nombre"
+                                                       styleClass="field-label"/>
+                                                <TextField fx:id="txtBusqueda"
+                                                           promptText="Ej. cuaderno o P001"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7.0" prefWidth="250.0">
+                                            <children>
+                                                <Label text="Categoría"
+                                                       styleClass="field-label"/>
+
+                                                <ComboBox fx:id="cmbFiltroCategoria"
+                                                          maxWidth="Infinity"
+                                                          value="Todas">
+                                                    <items>
+                                                        <FXCollections fx:factory="observableArrayList">
+                                                            <String fx:value="Todas"/>
+                                                            <String fx:value="Papelería"/>
+                                                            <String fx:value="Tecnología"/>
+                                                            <String fx:value="Accesorios"/>
+                                                        </FXCollections>
+                                                    </items>
+                                                </ComboBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <CheckBox fx:id="chkExistencias"
+                                                  text="Solo con existencias"/>
+
+                                        <Region HBox.hgrow="ALWAYS"/>
+
+                                        <Button fx:id="btnLimpiarFiltros"
+                                                text="Limpiar filtros"
+                                                styleClass="neutral-button"/>
+
+                                        <Button fx:id="btnBuscar"
+                                                text="Buscar"
+                                                styleClass="primary-button"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="16.0" styleClass="card">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                    <children>
+                                        <Label text="Productos registrados"
+                                               styleClass="section-title"/>
+
+                                        <Region HBox.hgrow="ALWAYS"/>
+
+                                        <Button text="Recargar"
+                                                onAction="#cargarProductos"
+                                                styleClass="secondary-button"/>
+                                    </children>
+                                </HBox>
+
+                                <TableView fx:id="tblProductos"
+                                           prefHeight="300.0"
+                                           minHeight="220.0">
+                                    <columns>
+                                        <TableColumn fx:id="colId"
+                                                     text="ID"
+                                                     prefWidth="55.0"/>
+
+                                        <TableColumn fx:id="colCodigo"
+                                                     text="Código"
+                                                     prefWidth="95.0"/>
+
+                                        <TableColumn fx:id="colNombre"
+                                                     text="Nombre"
+                                                     prefWidth="285.0"/>
+
+                                        <TableColumn fx:id="colCategoria"
+                                                     text="Categoría"
+                                                     prefWidth="170.0"/>
+
+                                        <TableColumn fx:id="colPrecio"
+                                                     text="Precio C$"
+                                                     prefWidth="140.0"
+                                                     style="-fx-alignment: CENTER-RIGHT;"/>
+
+                                        <TableColumn fx:id="colStock"
+                                                     text="Stock"
+                                                     prefWidth="95.0"
+                                                     style="-fx-alignment: CENTER;"/>
+                                    </columns>
+                                </TableView>
+
+                                <Label fx:id="lblContador"
+                                       text="Cargando productos..."
+                                       styleClass="counter-label"/>
+                            </children>
+                        </VBox>
+
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

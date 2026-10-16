@@ -1,9 +1,8 @@
--- Creación de base de datos
+--Creación de base de datos
 
-CREATE DATABASE papeleria_campos;
+CREATE DATABASE papeleria_campus
 
--- Creación de esquemas y bases de datos
-
+--Creación de esquema y de tabla
 CREATE SCHEMA IF NOT EXISTS catalogos;
 
 CREATE TABLE catalogos.producto (
@@ -36,10 +35,3 @@ CREATE TABLE catalogos.producto (
         stock >= 0
     )
 );
-
-SELECT current_database();
-
-SELECT table_schema, table_name
-FROM information_schema.tables
-WHERE table_name = 'producto';
-	
