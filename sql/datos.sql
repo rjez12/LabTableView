@@ -1,5 +1,11 @@
 -- Inserción de datos
 
+INSERT INTO catalogos.categoria (nombre)
+VALUES
+    ('Papelería'),
+    ('Tecnología'),
+    ('Accesorios');
+
 INSERT INTO catalogos.producto
     (codigo, nombre, categoria, precio, stock)
 VALUES

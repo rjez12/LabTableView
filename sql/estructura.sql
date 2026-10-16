@@ -1,9 +1,17 @@
---Creación de base de datos
+-- Creación de base de datos
 
 CREATE DATABASE papeleria_campus
 
---Creación de esquema y de tabla
+-- Creación de esquema y de tabla junto con constraints
 CREATE SCHEMA IF NOT EXISTS catalogos;
+
+CREATE TABLE catalogos.categoria (
+    nombre VARCHAR(20) PRIMARY KEY,
+
+    CONSTRAINT chk_categoria_nombre CHECK (
+        nombre IN ('Papelería', 'Tecnología', 'Accesorios')
+    )
+);
 
 CREATE TABLE catalogos.producto (
     id_producto INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -12,6 +20,10 @@ CREATE TABLE catalogos.producto (
     categoria VARCHAR(20) NOT NULL,
     precio NUMERIC(10, 2) NOT NULL,
     stock INTEGER NOT NULL,
+
+    CONSTRAINT fk_producto_categoria
+        FOREIGN KEY (categoria)
+        REFERENCES catalogos.categoria(nombre),
 
     CONSTRAINT chk_producto_codigo CHECK (
         codigo = UPPER(BTRIM(codigo))
