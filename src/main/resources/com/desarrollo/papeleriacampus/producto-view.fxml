@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -19,10 +17,10 @@
                     styleClass="main-scroll">
 
             <content>
-                <VBox spacing="20.0" styleClass="main-content">
+                <VBox spacing="12.0" styleClass="main-content">
                     <children>
 
-                        <HBox alignment="CENTER_LEFT" spacing="16.0">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
                             <children>
                                 <Label text="PC" styleClass="brand-logo"/>
 
@@ -30,6 +28,7 @@
                                     <children>
                                         <Label text="Papelería Campus"
                                                styleClass="page-title"/>
+
                                         <Label text="Organiza tus productos y consulta sus existencias."
                                                styleClass="muted-text"/>
                                     </children>
@@ -42,18 +41,19 @@
                             </children>
                         </HBox>
 
-                        <VBox spacing="18.0" styleClass="card">
+                        <VBox spacing="12.0" styleClass="card">
                             <children>
                                 <VBox spacing="4.0">
                                     <children>
                                         <Label text="Datos del producto"
                                                styleClass="section-title"/>
+
                                         <Label text="Completa la información del producto."
                                                styleClass="muted-text"/>
                                     </children>
                                 </VBox>
 
-                                <GridPane hgap="20.0" vgap="16.0">
+                                <GridPane hgap="20.0" vgap="10.0">
                                     <columnConstraints>
                                         <ColumnConstraints percentWidth="50.0"/>
                                         <ColumnConstraints percentWidth="50.0"/>
@@ -66,6 +66,7 @@
                                             <children>
                                                 <Label text="Código"
                                                        styleClass="field-label"/>
+
                                                 <TextField fx:id="txtCodigo"
                                                            promptText="Ej. P005"/>
                                             </children>
@@ -77,6 +78,7 @@
                                             <children>
                                                 <Label text="Nombre"
                                                        styleClass="field-label"/>
+
                                                 <TextField fx:id="txtNombre"
                                                            promptText="Nombre del producto"/>
                                             </children>
@@ -91,35 +93,31 @@
 
                                                 <ComboBox fx:id="cmbCategoria"
                                                           maxWidth="Infinity"
-                                                          promptText="Selecciona una categoría">
-                                                    <items>
-                                                        <FXCollections fx:factory="observableArrayList">
-                                                            <String fx:value="Papelería"/>
-                                                            <String fx:value="Tecnología"/>
-                                                            <String fx:value="Accesorios"/>
-                                                        </FXCollections>
-                                                    </items>
-                                                </ComboBox>
+                                                          promptText="Selecciona una categoría"/>
                                             </children>
                                         </VBox>
 
-                                        <HBox spacing="16.0"
+                                        <HBox spacing="10.0"
                                               GridPane.columnIndex="1"
                                               GridPane.rowIndex="1">
                                             <children>
-                                                <VBox spacing="7.0" HBox.hgrow="ALWAYS">
+                                                <VBox spacing="7.0"
+                                                      HBox.hgrow="ALWAYS">
                                                     <children>
                                                         <Label text="Precio C$"
                                                                styleClass="field-label"/>
+
                                                         <TextField fx:id="txtPrecio"
                                                                    promptText="0.00"/>
                                                     </children>
                                                 </VBox>
 
-                                                <VBox spacing="7.0" HBox.hgrow="ALWAYS">
+                                                <VBox spacing="7.0"
+                                                      HBox.hgrow="ALWAYS">
                                                     <children>
                                                         <Label text="Stock"
                                                                styleClass="field-label"/>
+
                                                         <TextField fx:id="txtStock"
                                                                    promptText="0"/>
                                                     </children>
@@ -155,12 +153,13 @@
                             </children>
                         </VBox>
 
-                        <VBox spacing="16.0" styleClass="card">
+                        <VBox spacing="10.0" styleClass="card">
                             <children>
                                 <VBox spacing="4.0">
                                     <children>
                                         <Label text="Encuentra tus productos"
                                                styleClass="section-title"/>
+
                                         <Label text="Busca por código o nombre y combina los filtros."
                                                styleClass="muted-text"/>
                                     </children>
@@ -168,10 +167,12 @@
 
                                 <HBox spacing="20.0" alignment="BOTTOM_LEFT">
                                     <children>
-                                        <VBox spacing="7.0" HBox.hgrow="ALWAYS">
+                                        <VBox spacing="7.0"
+                                              HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label text="Código o nombre"
                                                        styleClass="field-label"/>
+
                                                 <TextField fx:id="txtBusqueda"
                                                            promptText="Ej. cuaderno o P001"/>
                                             </children>
@@ -184,16 +185,7 @@
 
                                                 <ComboBox fx:id="cmbFiltroCategoria"
                                                           maxWidth="Infinity"
-                                                          value="Todas">
-                                                    <items>
-                                                        <FXCollections fx:factory="observableArrayList">
-                                                            <String fx:value="Todas"/>
-                                                            <String fx:value="Papelería"/>
-                                                            <String fx:value="Tecnología"/>
-                                                            <String fx:value="Accesorios"/>
-                                                        </FXCollections>
-                                                    </items>
-                                                </ComboBox>
+                                                          promptText="Todas"/>
                                             </children>
                                         </VBox>
                                     </children>
@@ -218,7 +210,7 @@
                             </children>
                         </VBox>
 
-                        <VBox spacing="16.0" styleClass="card">
+                        <VBox spacing="10.0" styleClass="card">
                             <children>
                                 <HBox alignment="CENTER_LEFT" spacing="12.0">
                                     <children>
@@ -234,33 +226,33 @@
                                 </HBox>
 
                                 <TableView fx:id="tblProductos"
-                                           prefHeight="300.0"
-                                           minHeight="220.0">
+                                           prefHeight="190.0"
+                                           minHeight="160.0">
                                     <columns>
                                         <TableColumn fx:id="colId"
                                                      text="ID"
-                                                     prefWidth="55.0"/>
+                                                     prefWidth="45.0"/>
 
                                         <TableColumn fx:id="colCodigo"
                                                      text="Código"
-                                                     prefWidth="95.0"/>
+                                                     prefWidth="75.0"/>
 
                                         <TableColumn fx:id="colNombre"
                                                      text="Nombre"
-                                                     prefWidth="285.0"/>
+                                                     prefWidth="210.0"/>
 
                                         <TableColumn fx:id="colCategoria"
                                                      text="Categoría"
-                                                     prefWidth="170.0"/>
+                                                     prefWidth="125.0"/>
 
                                         <TableColumn fx:id="colPrecio"
                                                      text="Precio C$"
-                                                     prefWidth="140.0"
+                                                     prefWidth="100.0"
                                                      style="-fx-alignment: CENTER-RIGHT;"/>
 
                                         <TableColumn fx:id="colStock"
                                                      text="Stock"
-                                                     prefWidth="95.0"
+                                                     prefWidth="65.0"
                                                      style="-fx-alignment: CENTER;"/>
                                     </columns>
                                 </TableView>

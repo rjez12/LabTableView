@@ -12,34 +12,65 @@ import java.util.ArrayList;
 
 public class ProductoDAO {
 
-    // Combina los filtros sin agregar los valores al texto SQL.
+    // Carga categorías con productos registrados.
+    public List<String> listarCategorias() throws SQLException {
+        String sql =
+                "SELECT DISTINCT c.nombre "
+                        + "FROM catalogos.categoria c "
+                        + "INNER JOIN catalogos.producto p "
+                        + "ON p.categoria = c.nombre "
+                        + "ORDER BY c.nombre";
+
+        List<String> categorias = new ArrayList<>();
+
+        try (Connection conexion = DatabaseConnection.getConnection();
+             PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                categorias.add(rs.getString("nombre"));
+            }
+
+            return categorias;
+
+        } catch (SQLException e) {
+            registrarError("Cargar categorías", e);
+            throw e;
+        }
+    }
+
+    // Combina filtros manteniendo separados el SQL.
     public List<Producto> buscar(
             String texto, String categoria, boolean conStock
     ) throws SQLException {
 
         StringBuilder sql = new StringBuilder(
-                "SELECT id_producto, codigo, nombre, categoria, precio, stock "
-                        + "FROM catalogos.producto WHERE 1=1"
+                "SELECT p.id_producto, p.codigo, p.nombre, "
+                        + "c.nombre AS categoria, p.precio, p.stock "
+                        + "FROM catalogos.producto p "
+                        + "INNER JOIN catalogos.categoria c "
+                        + "ON p.categoria = c.nombre "
+                        + "WHERE 1=1"
         );
 
         List<Object> parametros = new ArrayList<>();
 
         if (texto != null && !texto.isBlank()) {
-            sql.append(" AND (nombre ILIKE ? OR codigo ILIKE ?)");
+            sql.append(" AND (p.nombre ILIKE ? OR p.codigo ILIKE ?)");
             parametros.add("%" + texto.trim() + "%");
             parametros.add("%" + texto.trim() + "%");
         }
 
         if (categoria != null && !"Todas".equals(categoria)) {
-            sql.append(" AND categoria = ?");
+            sql.append(" AND c.nombre = ?");
             parametros.add(categoria);
         }
 
         if (conStock) {
-            sql.append(" AND stock > 0");
+            sql.append(" AND p.stock > 0");
         }
 
-        sql.append(" ORDER BY codigo ASC");
+        sql.append(" ORDER BY p.codigo ASC");
 
         List<Producto> productos = new ArrayList<>();
 
@@ -71,7 +102,7 @@ public class ProductoDAO {
         }
     }
 
-    // Al actualizar, excluye el ID del mismo producto.
+    // Excluye ID propio al bucar duplicados
     public boolean existeCodigo(
             String codigo, Integer excluirId
     ) throws SQLException {

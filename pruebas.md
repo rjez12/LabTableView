@@ -99,7 +99,16 @@ Se comprobaron al guardar y actualizar, cuando correspondía. Los intentos recha
 
 ![Restricciones comprobadas desde el DAO](evidencias/restricciones_dao.png)
 
+## Comprobaciones de la actualización
 
+| Prueba | Resultado esperado | Resultado obtenido | Estado |
+|---|---|---|---|
+| Conexión mediante variables de entorno | La aplicación carga los productos usando DB_URL, DB_USER y DB_PASSWORD. | Pendiente de comprobar en esta versión. | Pendiente |
+| Variable ausente | Al retirar DB_PASSWORD, aparece un aviso y la consola identifica la configuración faltante. | Pendiente | Pendiente |
+| Categorías del formulario | El ComboBox muestra las tres categorías asociadas a los productos iniciales. | Pendiente | Pendiente |
+| Categorías del filtro | Muestra Todas y las categorías obtenidas mediante INNER JOIN. | Pendiente | Pendiente |
+| Listado y búsqueda combinada | Se conservan los 12 productos iniciales; USB + Tecnología + existencias devuelve T001 y T003. | Pendiente | Pendiente |
+| CRUD después de la actualización | Guardar, actualizar y eliminar el producto temporal funciona y respeta los filtros. | Pendiente | Pendiente |
 ## Estado final
 
 Se retiraron los productos temporales utilizados durante las pruebas y se conservaron los 12 registros iniciales.

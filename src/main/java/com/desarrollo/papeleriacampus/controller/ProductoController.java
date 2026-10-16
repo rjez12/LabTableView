@@ -65,19 +65,52 @@ public class ProductoController {
         btnLimpiarFiltros.setOnAction(event -> limpiarFiltros());
         txtBusqueda.setOnAction(event -> buscarProductos());
 
-        cmbCategoria.setItems(FXCollections.observableArrayList(
-                "Papelería", "Tecnología", "Accesorios"
-        ));
-
-        cmbFiltroCategoria.setItems(FXCollections.observableArrayList(
-                "Todas", "Papelería", "Tecnología", "Accesorios"
-        ));
-
         cmbCategoria.setEditable(false);
         cmbFiltroCategoria.setEditable(false);
         cmbFiltroCategoria.setValue("Todas");
 
         cargarProductos();
+    }
+
+    private boolean cargarCategorias() {
+        String categoriaActual = cmbCategoria.getValue();
+        String filtroActual = cmbFiltroCategoria.getValue();
+
+        try {
+            List<String> categorias = dao.listarCategorias();
+
+            cmbCategoria.setItems(
+                    FXCollections.observableArrayList(categorias)
+            );
+
+            cmbCategoria.setValue(
+                    categorias.contains(categoriaActual)
+                            ? categoriaActual : null
+            );
+
+            ObservableList<String> filtros =
+                    FXCollections.observableArrayList(categorias);
+
+            filtros.add(0, "Todas");
+            cmbFiltroCategoria.setItems(filtros);
+
+            cmbFiltroCategoria.setValue(
+                    filtroActual == null ? "Todas" : filtroActual
+            );
+
+            return true;
+
+        } catch (SQLException e) {
+            lblContador.setText(
+                    "No se pudieron cargar las categorías."
+            );
+
+            mostrarErrorBaseDatos(
+                    "No se pudieron cargar las categorías.", e
+            );
+
+            return false;
+        }
     }
 
     private void configurarTableView() {
@@ -87,16 +120,24 @@ public class ProductoController {
                 ).asObject());
 
         colCodigo.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getCodigo()));
+                new SimpleStringProperty(
+                        data.getValue().getCodigo()
+                ));
 
         colNombre.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getNombre()));
+                new SimpleStringProperty(
+                        data.getValue().getNombre()
+                ));
 
         colCategoria.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getCategoria()));
+                new SimpleStringProperty(
+                        data.getValue().getCategoria()
+                ));
 
         colPrecio.setCellValueFactory(data ->
-                new SimpleObjectProperty<>(data.getValue().getPrecio()));
+                new SimpleObjectProperty<>(
+                        data.getValue().getPrecio()
+                ));
 
         colStock.setCellValueFactory(data ->
                 new SimpleIntegerProperty(
@@ -137,7 +178,7 @@ public class ProductoController {
         txtStock.setText(String.valueOf(p.getStock()));
     }
 
-    // Revisa los datos antes de guardar o actualizar.
+    // Valida los datos.
     private boolean validarFormulario() {
         txtCodigo.setText(txtCodigo.getText().trim().toUpperCase());
         txtNombre.setText(txtNombre.getText().trim());
@@ -150,6 +191,7 @@ public class ProductoController {
                     "Código inválido",
                     "El código debe tener de 1 a 10 caracteres."
             );
+
             txtCodigo.requestFocus();
             return false;
         }
@@ -162,21 +204,22 @@ public class ProductoController {
                     "Nombre inválido",
                     "El nombre debe tener de 3 a 80 caracteres."
             );
+
             txtNombre.requestFocus();
             return false;
         }
 
         String categoria = cmbCategoria.getValue();
 
-        if (!"Papelería".equals(categoria)
-                && !"Tecnología".equals(categoria)
-                && !"Accesorios".equals(categoria)) {
+        if (categoria == null
+                || !cmbCategoria.getItems().contains(categoria)) {
 
             mostrarAlerta(
                     Alert.AlertType.WARNING,
                     "Categoría requerida",
                     "Selecciona una categoría del catálogo."
             );
+
             return false;
         }
 
@@ -196,6 +239,7 @@ public class ProductoController {
                         "El precio debe ser de 0.01 a 99999999.99, "
                                 + "con hasta dos decimales."
                 );
+
                 return false;
             }
 
@@ -205,6 +249,7 @@ public class ProductoController {
                     "Precio inválido",
                     "Ingresa un precio numérico usando punto decimal."
             );
+
             return false;
         }
 
@@ -215,6 +260,7 @@ public class ProductoController {
                         "Stock inválido",
                         "El stock no puede ser negativo."
                 );
+
                 return false;
             }
 
@@ -224,6 +270,7 @@ public class ProductoController {
                     "Stock inválido",
                     "El stock debe ser un entero de 0 a 2147483647."
             );
+
             return false;
         }
 
@@ -252,6 +299,7 @@ public class ProductoController {
                         "Código duplicado",
                         "Otro producto ya utiliza ese código."
                 );
+
                 return;
             }
 
@@ -263,7 +311,7 @@ public class ProductoController {
 
             if (filas == 1) limpiarFormulario();
 
-            consultar(false);
+            cargarProductos();
 
         } catch (SQLException e) {
             mostrarErrorBaseDatos(
@@ -283,6 +331,7 @@ public class ProductoController {
                     "Selección requerida",
                     "Selecciona un producto para actualizar."
             );
+
             return;
         }
 
@@ -298,6 +347,7 @@ public class ProductoController {
                         "Código duplicado",
                         "Otro producto ya utiliza ese código."
                 );
+
                 return;
             }
 
@@ -312,7 +362,7 @@ public class ProductoController {
             );
 
             limpiarFormulario();
-            consultar(false);
+            cargarProductos();
 
         } catch (SQLException e) {
             mostrarErrorBaseDatos(
@@ -332,6 +382,7 @@ public class ProductoController {
                     "Selección requerida",
                     "Selecciona un producto para eliminar."
             );
+
             return;
         }
 
@@ -360,7 +411,7 @@ public class ProductoController {
             );
 
             limpiarFormulario();
-            consultar(false);
+            cargarProductos();
 
         } catch (SQLException e) {
             mostrarErrorBaseDatos(
@@ -376,6 +427,7 @@ public class ProductoController {
                     "Operación completada",
                     mensaje
             );
+
         } else {
             mostrarAlerta(
                     Alert.AlertType.WARNING,
@@ -393,10 +445,12 @@ public class ProductoController {
 
     @FXML
     public void cargarProductos() {
-        consultar(false);
+        if (cargarCategorias()) {
+            consultar(false);
+        }
     }
 
-    // Conserva los filtros al recargar después de cada operación.
+    // Conserva filtros después de accionar un boton.
     private void consultar(boolean avisarSinResultados) {
         try {
             List<Producto> resultados = dao.buscar(
@@ -450,7 +504,7 @@ public class ProductoController {
         txtBusqueda.clear();
         cmbFiltroCategoria.setValue("Todas");
         chkExistencias.setSelected(false);
-        consultar(false);
+        cargarProductos();
     }
 
     private void mostrarErrorBaseDatos(
@@ -463,22 +517,29 @@ public class ProductoController {
             case "23505" ->
                     "El código ya pertenece a otro producto.";
 
+            case "23503" ->
+                    "La categoría ya no está disponible. "
+                            + "Pulsa Recargar.";
+
             case "23514", "23502", "22003", "22001" ->
                     "Los datos incumplen una restricción "
                             + "de la base de datos.";
 
             case "28P01", "28000" ->
-                    "Revisa el usuario y la contraseña "
-                            + "en DatabaseConnection.";
+                    "Revisa DB_USER y DB_PASSWORD "
+                            + "en la configuración de ejecución.";
+
+            case "08001", "08006" ->
+                    "Revisa DB_URL, DB_USER y DB_PASSWORD, "
+                            + "y que PostgreSQL esté disponible.";
 
             case "3D000", "42P01" ->
-                    "Comprueba la base papeleria_campus "
-                            + "y la tabla catalogos.producto.";
+                    "Comprueba la base indicada en DB_URL "
+                            + "y las tablas del esquema catalogos.";
 
             default ->
-                    "Comprueba PostgreSQL y los datos de "
-                            + "DatabaseConnection. Revisa la consola "
-                            + "para conocer el detalle.";
+                    "No se pudo completar la operación. "
+                            + "Revisa la consola para conocer el detalle.";
         };
 
         mostrarAlerta(
